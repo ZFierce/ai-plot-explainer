@@ -87,7 +87,7 @@
 
             try {
                 // Mock AI processing - Replace this with actual AI backend API call
-                const response = await fetch('https://api.openai.com/v1/completions', {
+                const response = await fetch('http://localhost:3000', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
