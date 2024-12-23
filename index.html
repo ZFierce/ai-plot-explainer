@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Movie & TV Show Explainer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+        main {
+            padding: 2rem;
+            max-width: 800px;
+            margin: auto;
+        }
+        .input-section {
+            margin-bottom: 2rem;
+        }
+        label {
+            font-weight: bold;
+        }
+        input, textarea, button {
+            width: 100%;
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            font-size: 1rem;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .output-section {
+            background-color: white;
+            padding: 1rem;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .output-section h2 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>AI Movie & TV Show Explainer</h1>
+    </header>
+    <main>
+        <section class="input-section">
+            <label for="user-input">Enter Movie or TV Show Plot:</label>
+            <textarea id="user-input" rows="6" placeholder="Paste the plot here..."></textarea>
+            <button onclick="generateExplanation()">Explain Plot</button>
+        </section>
+        <section class="output-section" id="output-section" style="display: none;">
+            <h2>Plot Explanation</h2>
+            <p id="output"></p>
+        </section>
+    </main>
+
+    <script>
+        async function generateExplanation() {
+            const userInput = document.getElementById('user-input').value;
+            if (!userInput.trim()) {
+                alert('Please enter a plot.');
+                return;
+            }
+
+            const outputSection = document.getElementById('output-section');
+            const output = document.getElementById('output');
+
+            output.textContent = 'Generating explanation...';
+            outputSection.style.display = 'block';
+
+            try {
+                // Mock AI processing - Replace this with actual AI backend API call
+                const response = await fetch('https://api.openai.com/v1/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer YOUR_API_KEY', // Replace with your actual API key
+                    },
+                    body: JSON.stringify({
+                        model: 'text-davinci-003',
+                        prompt: `Explain this movie or TV show plot: ${userInput}`,
+                        max_tokens: 150,
+                    }),
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    output.textContent = data.choices[0].text.trim();
+                } else {
+                    output.textContent = 'An error occurred while generating the explanation.';
+                }
+            } catch (error) {
+                output.textContent = 'Failed to connect to the AI service.';
+            }
+        }
+    </script>
+</body>
+</html>
